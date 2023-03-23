@@ -1,85 +1,96 @@
 import React from 'react';
-import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-const ConfirmForm = (props) => {
-    const { showComponent, setShowComponent } = props;
-    console.log(showComponent);
-    const navigate = useNavigate();
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
+const ConfirmForm = () => {
+  const navigate = useNavigate();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState([]);
+  
 
-    const Confirm = () => {
-        setShowComponent(true)
-        navigate("/")
+  useEffect(() => {
+    localStorage.setItem('emailKey', JSON.stringify(email));
+    localStorage.setItem('passwordKey', JSON.stringify(password));
+  }, [email,password]);
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+
+    //validation
+    if (email === '' || password === '') {
+      alert('Email and password should be required.');
+      return;
     }
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        //validation
+    if (password.length < 6) {
+      alert('Password should be longer than 6 letters.');
+      return;
+    }
 
-        if (
+    //localStorage.setItem('user', 'mail:' + email + ' ' + 'pas:' + password);
+    navigate('/');
 
-            email === "" ||
-            password === "") {
-            alert("Email and password should be required.")
-            return
-        }
-        if (password.length < 6) {
-            alert("Password should be longer than 6 letters.")
-            return
-        }
+    setEmail("");
+    setPassword("");
+  };
 
 
-        const newUser = {
-            id: String(new Date().getTime()),
-            email: email,
-            password: password,
+  const confirm = () => {
+    if (password.length > 6) { navigate('/') }
 
-        }
+  }
+  return (
+    <div>
+      <div className="container my-5">
+        <form onSubmit={handleSubmit}>
+          <div className="mb-3">
+            <label htmlFor="email" className="form-label">
+              Email Adress
+            </label>
+            <input
+              type="text"
+              className="form-control"
+              id="email"
+              placeholder="Ex: dtarhan@gmail.com"
+              autoFocus
+              value={email}
+              onChange={(event) => setEmail(event.target.value)}
+            />
+          </div>
+          <div className="mb-3">
+            <label htmlFor="password" className="form-label">
+              Password
+            </label>
+            <input
+              type="text"
+              className="form-control"
+              id="password"
+              placeholder="Ex: 123456"
+              autoFocus
+              value={password}
+              onChange={(event) => setPassword(event.target.value)}
+            />
+          </div>
 
-
-    };
-    return (
-        <div>
-            <div className="container my-5">
-                <form onSubmit={handleSubmit}>
-
-                    <div className="mb-3">
-                        <label htmlFor="email" className="form-label">
-                            Email Adress
-                        </label>
-                        <input
-                            type="text"
-                            className="form-control"
-                            id="email"
-                            placeholder="Ex: dtarhan@gmail.com"
-                            value={email}
-                            onChange={(event) => setEmail(event.target.value)}
-                        />
-                    </div>
-                    <div className="mb-3">
-                        <label htmlFor="password" className="form-label">
-                            Password
-                        </label>
-                        <input
-                            type="text"
-                            className="form-control"
-                            id="password"
-                            placeholder="Ex: 123456"
-                            value={password}
-                            onChange={(event) => setPassword(event.target.value)}
-                        />
-                    </div>
-
-                    <div className="d-flex justify-content-center my-5">
-                        <button type="submit" onClick={Confirm} className="btn btn-primary w-20">
-                            Kaydet
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    )
+          <div className="d-flex justify-content-center my-5">
+            <button
+              type="submit"
+              onClick={confirm}
+              className="btn btn-primary w-20"
+            >
+              Save
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
 }
 
-export default ConfirmForm
+export default ConfirmForm;
+
+
+/*const confirm = () => {
+  if (!localStorage.getItem('user')) {
+    navigate('/login');
+  }
+};*/

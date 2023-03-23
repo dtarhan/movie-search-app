@@ -13,7 +13,7 @@ import urls from "./api/urls";
 
 
 function App() {
-  const [showComponent, setShowComponent]=useState(false)
+  const [showComponent, setShowComponent] = useState(false)
   const dispatch = useDispatch();
   const { filmsState } = useSelector((state) => state);
 
@@ -34,24 +34,24 @@ function App() {
           payload: "Serverda bir hata oluştu",
         });
       });
-   
-    
+
+
   }, []);
 
-  if (filmsState.success === false )
+  if (filmsState.success === false)
     return null;
 
   return (
-    
+
     <BrowserRouter>
       <Routes>
-        
+        <Route path="/login" element={<ConfirmForm />} />
         <Route path="/" element={<HomePage />} />
         <Route path="/film-detail/:filmId" element={<FilmDetail />} />
-       
+
       </Routes>
-      
-      
+
+
     </BrowserRouter>
   );
 }
@@ -63,21 +63,6 @@ export default App;
 
 
 
- /* useEffect(() => {
-
-    api
-      .get(urls.movie)
-     
-      .then((response) => {
-        console.log(response.data);
-       
-         setMovies(response.data);
-       
-      })
 
 
-      .catch((error) => { });
-  }, []);*/
 
-  
-    

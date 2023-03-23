@@ -1,18 +1,26 @@
 import React from "react";
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Header from "../components/Header";
 import ListFilms from "../components/ListFilms";
-import ConfirmForm from "./ConfirmForm";
 
 
 
 
 const HomePage = () => {
-    
+    const navigate = useNavigate();
+
+    useEffect(() => {
+      if (!localStorage.getItem('emailKey') & !localStorage.getItem('passwordKey') ) {
+        navigate('/login');
+      }
+    }, []);
+     
 
     
     return (
         <div>
-            <ConfirmForm />
+            
             <Header />            
             <ListFilms />
         </div>

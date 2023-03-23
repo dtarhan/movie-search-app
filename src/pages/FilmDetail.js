@@ -29,6 +29,27 @@ const FilmDetail = () => {
         <h3> <b> Language:</b> <span> {myFilm.original_language} </span> </h3> <hr />
         <h3> <b> Vote Average: </b> {myFilm.vote_average}</h3> <hr />
         <h3> <b> Summary: </b> <p className="text-danger" > {myFilm.overview} </p>  </h3> <hr />
+        <h3> <b> Category: </b> <p className="text-secondary">
+
+          {myFilm.genres.map((genre,index) => (
+            <span key={index}> {genre.name} </span>
+          ))}
+        </p> 
+        </h3> <hr />
+        <h3> <b> Production Company: </b> <p className="text-secondary">
+
+          {myFilm.production_companies.map((item,index) => (
+            <span key={index}> {item.name} </span>
+          ))}
+        </p> 
+        </h3> <hr />
+        <h3> <b> Country: </b> <p className="text-secondary">
+
+          {myFilm.production_companies.map((item,index) => (
+            <span key={index}> {item.origin_country} </span>
+          ))}
+        </p> 
+        </h3> <hr />
        <h3>  <Link  to={`${myFilm.homepage}`}> MovieLink  </Link> </h3>  <hr />
 
         <Link to={"/"}> <button className="btn btn-danger" > Back to HomePage</button>   </Link>

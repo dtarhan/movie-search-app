@@ -1,19 +1,19 @@
 import React, { useState, useEffect } from "react";
 
-import { useSelector} from "react-redux";
-
-
-import api from "../api/api";
-import urls from "../api/urls";
-import actionTypes from "../redux/actions/actionTypes";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 
 
 
-
 const ListFilms = () => {
     
+    useEffect(() => {
+        if (!localStorage.getItem('emailKey') & !localStorage.getItem('passwordKey') ) {
+          navigate('/login');
+        }
+      }, []);
+
     const { filmsState } = useSelector((state) => state);
 
 
@@ -25,7 +25,7 @@ const ListFilms = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        console.log(searchText);
+
         const temp = filmsState.movies.filter(
             (item) =>
                 item.original_title.toLowerCase().includes(searchText.toLowerCase()) === true
@@ -35,7 +35,11 @@ const ListFilms = () => {
     }, [searchText, filmsState]);
 
 
-
+   const logOut=()=>{
+    localStorage.clear();
+    navigate('/login');
+    
+   }
 
     return (
         <div className="container my-5">
@@ -48,6 +52,7 @@ const ListFilms = () => {
                     value={searchText}
                     onChange={(event) => setSearchText(event.target.value)}
                 />
+                <button className="btn btn-lg btn-secondary" onClick={logOut}>Log out</button>
 
 
             </div>
@@ -58,7 +63,7 @@ const ListFilms = () => {
                         <th scope="col">Movie Name</th>
                         <th scope="col">Vote Average</th>
                         <th scope="col">Time</th>
-                        <th scope="col">Details</th> 
+                        <th scope="col">Details</th>
 
                     </tr>
                 </thead>
@@ -72,8 +77,8 @@ const ListFilms = () => {
                                 <td>{film.vote_average}</td>
                                 <td>{film.runtime} minutes</td>
                                 <td> <Link to={`/film-detail/${film.id}`} className="btn btn-sm btn-success"> Detail </Link>
-                                        
-                                </td> 
+
+                                </td>
 
                             </tr>
                         );
